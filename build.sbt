@@ -14,8 +14,6 @@ resolvers += "http://maven.xwiki.org" at "http://maven.xwiki.org/externals"
 
 resolvers += "OpenIMAJ maven releases repository" at "http://maven.openimaj.org"
 
-libraryDependencies += "nu.pattern" % "opencv" % "2.4.9-7"
-
 libraryDependencies += "org.openimaj" % "image-processing" % "1.3.1"
 
 libraryDependencies += "org.openimaj" % "video-processing" % "1.3.1"
