@@ -23,7 +23,7 @@ object Vision extends App {
 
   var videoDevices = VideoCapture.getVideoDevices()
 
-  val videoCapture = new VideoCapture(256, 256, 1, videoDevices.get(0))
+  val videoCapture = new VideoCapture(1024, 1024, 5, videoDevices.last)
 
   val images = for (image <- videoCapture.toStream) yield image.clone
 

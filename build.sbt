@@ -25,8 +25,4 @@ libraryDependencies += "com.twelvemonkeys.imageio" % "imageio-core" % "3.0.1"
 libraryDependencies += "com.twelvemonkeys.common" % "common-lang" % "3.0.1"
 
 
-
-
-
-
-
+libraryDependencies += "org.openimaj" % "demos" % "1.3.1"
