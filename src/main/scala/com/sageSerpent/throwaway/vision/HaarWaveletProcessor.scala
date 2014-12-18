@@ -26,20 +26,19 @@ object HaarWaveletProcessor {
 
       for (band <- 0 until image.numBands()) {
         trait TranspositionContext {
-          val startColumn: Int
-          val row: Int
-          val widthOfSectionBeingProcessed: Int
-          def gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel = widthOfSectionBeingProcessed / 2
-          def getImagePixel(column: Int): Float
-          def setImagePixel(column: Int, value: Float): Unit
+          val startX: Int
+          val y: Int
+          val lengthOfSectionInXDirectionBeingProcessed: Int
+          def gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel = lengthOfSectionInXDirectionBeingProcessed / 2
+          def getImagePixel(x: Int): Float
+          def setImagePixel(x: Int, value: Float): Unit
 
           def subContext(): TranspositionContext // No need for F-bounds or 'this.type'.
 
           def hiveOffWaveletCoefficientsAcrossWidth() {
-            //println(startColumn, widthOfSectionBeingProcessed, gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel)
-            if (128 < widthOfSectionBeingProcessed) {
+            if (1 < lengthOfSectionInXDirectionBeingProcessed) {
               for (waveletCoefficientIndex <- 0 until gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel) {
-                val lhsOfPairIndex = startColumn + 2 * waveletCoefficientIndex
+                val lhsOfPairIndex = startX + 2 * waveletCoefficientIndex
                 val rhsOfPairIndex = 1 + lhsOfPairIndex
                 val lhs = getImagePixel(lhsOfPairIndex)
                 val rhs = getImagePixel(rhsOfPairIndex)
@@ -49,29 +48,45 @@ object HaarWaveletProcessor {
                 mutableBufferForResultRowPixels(waveletCoefficientIndex) = waveletCoefficient.toFloat
                 mutableBufferForResultRowPixels(lowResolutionIndex) = lowResolution.toFloat
               }
-              for (bufferIndex <- 0 until widthOfSectionBeingProcessed) {
-                setImagePixel(startColumn + bufferIndex, mutableBufferForResultRowPixels(bufferIndex))
+              for (bufferIndex <- 0 until lengthOfSectionInXDirectionBeingProcessed) {
+                setImagePixel(startX + bufferIndex, mutableBufferForResultRowPixels(bufferIndex))
               }
               subContext().hiveOffWaveletCoefficientsAcrossWidth()
             }
           }
         }
 
-        class NoTransposition(val row: Int, val startColumn: Int) extends TranspositionContext {
-          val widthOfSectionBeingProcessed: Int = image.getWidth() - startColumn
+        class NoTransposition(val y: Int, val startX: Int) extends TranspositionContext {
+          val lengthOfSectionInXDirectionBeingProcessed: Int = image.getWidth() - startX
 
-          def getImagePixel(column: Int): Float = image.getBand(band).pixels(row)(column)
-          def setImagePixel(column: Int, value: Float) {
-            image.getBand(band).pixels(row)(column) = value
+          def getImagePixel(x: Int): Float = image.getBand(band).pixels(y)(x)
+          def setImagePixel(x: Int, value: Float) {
+            image.getBand(band).pixels(y)(x) = value
           }
 
-          def subContext(): TranspositionContext = new NoTransposition(row,
-            gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel + startColumn)
+          def subContext(): TranspositionContext = new NoTransposition(y,
+            gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel + startX)
         }
+        
+        class Transposition(val y: Int, val startX: Int) extends TranspositionContext {
+          val lengthOfSectionInXDirectionBeingProcessed: Int = image.getHeight() - startX
+
+          def getImagePixel(x: Int): Float = image.getBand(band).pixels(x)(y)
+          def setImagePixel(x: Int, value: Float) {
+            image.getBand(band).pixels(x)(y) = value
+          }
+
+          def subContext(): TranspositionContext = new Transposition(y,
+            gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel + startX)
+        }        
 
         for (row <- 0 until image.getHeight()) {
           new NoTransposition(row, 0).hiveOffWaveletCoefficientsAcrossWidth()
         }
+        
+        for (column <- 0 until image.getWidth()) {
+          new Transposition(column, 0).hiveOffWaveletCoefficientsAcrossWidth()
+        }        
       }
     }
   }

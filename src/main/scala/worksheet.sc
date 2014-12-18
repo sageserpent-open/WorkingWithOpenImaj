@@ -48,7 +48,7 @@ object worksheet {
   DisplayUtilities.display(image)                 //> res3: javax.swing.JFrame = javax.swing.JFrame[frame0,0,23,1024x1046,layout=j
                                                   //| ava.awt.BorderLayout,title=Image: 0,maximized,defaultCloseOperation=HIDE_ON_
                                                   //| CLOSE,rootPane=javax.swing.JRootPane[,0,22,1024x1024,layout=javax.swing.JRoo
-                                                  //| tPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=16777675,maximu
+                                                  //| tPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=16777673,maximu
                                                   //| mSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]-
 
 }
