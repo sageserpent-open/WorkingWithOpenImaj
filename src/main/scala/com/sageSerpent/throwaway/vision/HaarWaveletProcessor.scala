@@ -4,22 +4,11 @@ import org.openimaj.image.MBFImage
 import org.openimaj.image.processor.ImageProcessor
 
 object HaarWaveletProcessor {
-  def isPowerOfTwo(x: Int) = {
-    def isEvenAfterAllHalvingSteps(x: Int): Boolean =
-      if (1 == x)
-        true
-      else if (0 != (1 & x))
-        false
-      else
-        isEvenAfterAllHalvingSteps(x >> 1)
-    0 < x && isEvenAfterAllHalvingSteps(x)
-  }
-
   def apply() = new ImageProcessor[MBFImage] {
     def processImage(image: MBFImage) {
-      if (!isPowerOfTwo(image.getHeight()))
+      if (!BargainBasement.isPowerOfTwo(image.getHeight()))
         throw new Exception("Height must be a power of two")
-      if (!isPowerOfTwo(image.getWidth()))
+      if (!BargainBasement.isPowerOfTwo(image.getWidth()))
         throw new Exception("Width must be a power of two")
       val normalisation = Math.sqrt(2)
       val mutableBufferForResultRowPixels = Array.ofDim[Float](image.getWidth() max image.getHeight())
