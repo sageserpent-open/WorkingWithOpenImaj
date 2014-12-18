@@ -19,6 +19,9 @@ object worksheet {
 
   val image = ImageUtilities.readMBF(new File("/Users/gerardMurphy/Documents/workspace/vision/output_4.jpg"))
                                                   //> image  : org.openimaj.image.MBFImage = org.openimaj.image.MBFImage@1d8bd0de
+  																						// This bit is obviously user-specific - ideally the worksheet could just pick up
+  																						// the files from the project directory; this is an oustanding Scala IDE bug at
+  																						// time of writing.
 
   image.colourSpace                               //> res1: org.openimaj.image.colour.ColourSpace = RGB
 
@@ -45,10 +48,10 @@ object worksheet {
 
   image.processInplace(imageProcessor)            //> res2: org.openimaj.image.MBFImage = org.openimaj.image.MBFImage@1d8bd0de
 
-  DisplayUtilities.display(image)                 //> res3: javax.swing.JFrame = javax.swing.JFrame[frame0,0,23,1024x1046,layout=j
-                                                  //| ava.awt.BorderLayout,title=Image: 0,maximized,defaultCloseOperation=HIDE_ON_
-                                                  //| CLOSE,rootPane=javax.swing.JRootPane[,0,22,1024x1024,layout=javax.swing.JRoo
-                                                  //| tPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=16777673,maximu
-                                                  //| mSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]-
+  DisplayUtilities.display(image)                 //> res3: javax.swing.JFrame = javax.swing.JFrame[frame0,0,23,1024x1046,layout=
+                                                  //| java.awt.BorderLayout,title=Image: 0,maximized,defaultCloseOperation=HIDE_O
+                                                  //| N_CLOSE,rootPane=javax.swing.JRootPane[,0,22,1024x1024,layout=javax.swing.J
+                                                  //| RootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=16777673,ma
+                                                  //| ximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]/
 
 }
