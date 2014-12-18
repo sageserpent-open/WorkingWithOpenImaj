@@ -24,7 +24,7 @@ object HaarWaveletProcessor {
 
           def subContext(): TranspositionContext // No need for F-bounds or 'this.type'.
 
-          def hiveOffWaveletCoefficientsAcrossWidth() {
+          def hiveOffWaveletCoefficientsAlongSectionInXDirection() {
             if (1 < lengthOfSectionInXDirectionBeingProcessed) {
               for (waveletCoefficientIndex <- 0 until gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel) {
                 val lhsOfPairIndex = startX + 2 * waveletCoefficientIndex
@@ -40,7 +40,7 @@ object HaarWaveletProcessor {
               for (bufferIndex <- 0 until lengthOfSectionInXDirectionBeingProcessed) {
                 setImagePixel(startX + bufferIndex, mutableBufferForResultRowPixels(bufferIndex))
               }
-              subContext().hiveOffWaveletCoefficientsAcrossWidth()
+              subContext().hiveOffWaveletCoefficientsAlongSectionInXDirection()
             }
           }
         }
@@ -70,11 +70,11 @@ object HaarWaveletProcessor {
         }        
 
         for (row <- 0 until image.getHeight()) {
-          new NoTransposition(row, 0).hiveOffWaveletCoefficientsAcrossWidth()
+          new NoTransposition(row, 0).hiveOffWaveletCoefficientsAlongSectionInXDirection()
         }
         
         for (column <- 0 until image.getWidth()) {
-          new Transposition(column, 0).hiveOffWaveletCoefficientsAcrossWidth()
+          new Transposition(column, 0).hiveOffWaveletCoefficientsAlongSectionInXDirection()
         }        
       }
     }
