@@ -47,7 +47,7 @@ object HaarWaveletProcessor {
           }
         }
 
-        class NoTransposition(val startX: Int) extends TranspositionContext {
+        class NoTransposition(val startX: Int, startY: Int) extends TranspositionContext {
           val lengthOfSectionInXDirectionBeingProcessed: Int = image.getWidth() - startX
           val numberOfPixelsInYDirection: Int = image.getHeight()
 
@@ -56,10 +56,10 @@ object HaarWaveletProcessor {
             image.getBand(band).pixels(y)(x) = value
           }
 
-          def subContext(): TranspositionContext = new NoTransposition(gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel + startX)
+          def subContext(): TranspositionContext = new Transposition(startY, gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel + startX)
         }
 
-        class Transposition(val startX: Int) extends TranspositionContext {
+        class Transposition(val startX: Int, startY: Int) extends TranspositionContext {
           val lengthOfSectionInXDirectionBeingProcessed: Int = image.getHeight() - startX
           val numberOfPixelsInYDirection: Int = image.getWidth()
 
@@ -68,12 +68,10 @@ object HaarWaveletProcessor {
             image.getBand(band).pixels(x)(y) = value
           }
 
-          def subContext(): TranspositionContext = new Transposition(gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel + startX)
+          def subContext(): TranspositionContext = new NoTransposition(startY, gapBetweenWaveletCoefficientAndItsCorrespondingLowResolutionPixel + startX)
         }
 
-        new NoTransposition(0).hiveOffWaveletCoefficientsAlongSectionInXDirection()
-
-        new Transposition(0).hiveOffWaveletCoefficientsAlongSectionInXDirection()
+        new NoTransposition(0, 0).hiveOffWaveletCoefficientsAlongSectionInXDirection()
       }
     }
   }
