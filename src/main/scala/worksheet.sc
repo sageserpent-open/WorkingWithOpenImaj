@@ -44,14 +44,14 @@ object worksheet {
 
   val imageProcessor = HaarWaveletProcessor()     //> imageProcessor  : org.openimaj.image.processor.ImageProcessor[org.openimaj.i
                                                   //| mage.MBFImage] = com.sageSerpent.throwaway.vision.HaarWaveletProcessor$$anon
-                                                  //| $1@157853da
+                                                  //| $1@5f16132a
 
   image.processInplace(imageProcessor)            //> res2: org.openimaj.image.MBFImage = org.openimaj.image.MBFImage@1d8bd0de
 
   DisplayUtilities.display(image)                 //> res3: javax.swing.JFrame = javax.swing.JFrame[frame0,0,23,1024x1046,layout=
                                                   //| java.awt.BorderLayout,title=Image: 0,maximized,defaultCloseOperation=HIDE_O
                                                   //| N_CLOSE,rootPane=javax.swing.JRootPane[,0,22,1024x1024,layout=javax.swing.J
-                                                  //| RootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=16777675,ma
-                                                  //| ximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]\
+                                                  //| RootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=16777673,ma
+                                                  //| ximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]|
 
 }
